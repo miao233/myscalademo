@@ -3,3 +3,5 @@ lib/*
 project/
 target/
 null/
+boot/
+data/
