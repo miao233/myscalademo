@@ -4,9 +4,9 @@ package hellodemo
  * testing scala sbt env
  * 2022-04-30
  */
-object hellostart {
+object hello {
   def main(args: Array[String]): Unit = {
     println("hello,scala")
-//    val someArray = Array()
+    //    val someArray = Array()
   }
 }

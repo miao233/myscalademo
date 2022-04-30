@@ -1,4 +1,4 @@
-package dataload
+package mldemo
 
 import org.apache.spark.SparkConf
 import org.apache.spark.ml.evaluation.RegressionEvaluator
@@ -10,20 +10,20 @@ import org.apache.spark.sql.SparkSession
  * do something change
  */
 
-object dataLoadDemo{
+object ALS {
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setMaster("local").setAppName("RS")
-    val sc = SparkSession.builder().config(conf).getOrCreate()
-    sc.sparkContext.setLogLevel("WARN")
+    val spark = SparkSession.builder().config(conf).getOrCreate()
+    spark.sparkContext.setLogLevel("WARN")
 
     val parseRating = (string: String) => {
       val stringArray = string.split("\t")
       Rating(stringArray(0).toInt, stringArray(1).toInt, stringArray(2).toFloat)
     }
 
-    import sc.implicits._
+    import spark.implicits._
 
-    val data = sc.read.textFile("./data/u.data")
+    val data = spark.read.textFile("./data/u.data")
       .map(parseRating)
       .toDF("userID", "itemID", "rating")
     val Array(traing, test) = data.randomSplit(Array(0.8, 0.2))
@@ -43,7 +43,7 @@ object dataLoadDemo{
 
 
     //MovieLens
-    val users = sc.createDataset(Array(196)).toDF("userID")
+    val users = spark.createDataset(Array(196)).toDF("userID")
     //users.show(false)
     model.recommendForUserSubset(users, 10).show(false) //想一想工业实践该怎么结合这段代码？
 
