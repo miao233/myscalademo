@@ -10,7 +10,7 @@ import org.apache.spark.sql.SparkSession
  * do something change
  */
 
-object dataLoadDemo {
+object dataLoadDemo{
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setMaster("local").setAppName("RS")
     val sc = SparkSession.builder().config(conf).getOrCreate()
