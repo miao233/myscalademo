@@ -15,6 +15,7 @@ object MultiNum {
     val parseRating = (string: String) => {
       val stringArray = string.split(",")
       (stringArray(0), stringArray(1), stringArray(2).toInt, stringArray(3))
+      // (13800138000,2,1651497821,85931123)
     }
 
     //    import spark.implicits._
@@ -22,9 +23,26 @@ object MultiNum {
     val data = sc.sparkContext.textFile("./data/multi/phone.csv")
       .map(parseRating)
     data.foreach(println)
+    //    data.map(row =>{
+    //      data.row(1)
+    //    }
+    //    )
+
   }
   // todo
 
 }
 
+/** test data
+ * 13800138000,2,1651497821,85931123
+ * 13800138001,2,1651497829,85931123
+ * 13800138002,2,1651497831,85931123
+ * 13800138003,2,1651497832,85931124
+ * 13800138004,2,1651497841,85931123
+ * 13800138001,2,1651497841,85931123
+ * 13800138002,2,1651497846,85931133
+ * 13800138003,2,1651497851,85931133
+ * 13800138004,2,1651497852,85931123
+ * 13800138005,2,1651497856,85931123
+ */
 
