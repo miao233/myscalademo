@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat
 
 object MultiNum {
 
+  case class lte(num: String, event: String, cp: String, time: Long, subImei: String)
+
   def main(args: Array[String]): Unit = {
     //创建一个SparkSession，在Spark2.1中，SparkSession包括了SparkContext，若想使用SparkContext，用sc.sparkContext即可
     val conf = new SparkConf().setMaster("local").setAppName("multi")
@@ -48,20 +50,7 @@ object MultiNum {
     finalRes.foreach(println)
   }
 
-  case class lte(num: String, event: String, cp: String, time: Long, subImei: String)
 
 }
 
-/** test data
- * 13800138000,2,1651497821,85931123
- * 13800138001,2,1651497829,85931123
- * 13800138002,2,1651497831,85931123
- * 13800138003,2,1651497832,85931124
- * 13800138004,2,1651497841,85931123
- * 13800138001,2,1651497841,85931123
- * 13800138002,2,1651497846,85931133
- * 13800138003,2,1651497851,85931133
- * 13800138004,2,1651497852,85931123
- * 13800138005,2,1651497856,85931123
- */
 
