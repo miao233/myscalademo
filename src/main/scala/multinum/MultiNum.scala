@@ -12,8 +12,8 @@ object MultiNum {
   def main(args: Array[String]): Unit = {
     //创建一个SparkSession，在Spark2.1中，SparkSession包括了SparkContext，若想使用SparkContext，用sc.sparkContext即可
     val conf = new SparkConf().setMaster("local").setAppName("multi")
-    val sc = SparkSession.builder().config(conf).getOrCreate()
-    sc.sparkContext.setLogLevel("WARN")
+    val spark = SparkSession.builder().config(conf).getOrCreate()
+    spark.sparkContext.setLogLevel("WARN")
     // case class Rating(str: String, str1: String, timeS: Int, str2: String)
     val timeFormat = new SimpleDateFormat("yyyyMMddHH")
     val parseRating = (string: String) => {
@@ -28,7 +28,7 @@ object MultiNum {
 
     //    import spark.implicits._
 
-    val data = sc.sparkContext.textFile("./data/multi/phone.csv")
+    val data = spark.sparkContext.textFile("./data/multi/phone.csv")
       .map(parseRating)
 
     data.foreach(println)
