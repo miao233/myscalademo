@@ -38,7 +38,7 @@ object MultiNum {
     val preData = data.map(l => {
       (index(l.subImei, l.event), l)
     })
-
+    val startTime: Long = System.currentTimeMillis
     val finalRes = preData.join(preData)
       .filter(r => r._2._1.time < r._2._2.time
         && r._2._2.time - r._2._1.time < 10
@@ -46,27 +46,29 @@ object MultiNum {
       .map(r => multi(r._1.subImei, r._1.event, r._2._1.time, r._2._2.time, r._2._1.num, r._2._2.num))
     //      .foreach(println)
     finalRes.foreach(println)
+    println(System.currentTimeMillis - startTime)
     println("==============RESULT2===============")
+    val startTime2: Long = System.currentTimeMillis
     val finalRes2 = data.groupBy(r => (r.subImei, r.event))
-      .map(r => {
-        //        val res = new ListBuffer[multi]()
+      .flatMap(r => {
         val preData = r._2.toArray
-
-        val res = preData.map(r => {
-          val window = windowCreate(preData, r.time)
+        val res = preData.flatMap(r => {
+          windowCreate(preData, r.time)
             .filter(_.num != r.num)
-          if (window.length > 0) {
-            // todo 相同时间特殊处理
-            window.map(w => multi(r.subImei, r.event, r.time, w.time, r.num, w.num))
-              .filterNot(i => i.time1 == i.time2 && i.num2 > i.num1)
-          }
-        })
-        //        res.take(res.length)
-        //        for (i <- res) yield i
+            .map(w => multi(r.subImei, r.event, r.time, w.time, r.num, w.num))
+        }).filterNot(r => r.time1 == r.time2 && r.num1 < r.num2)
+          .map(r => {
+            if (r.num1 < r.num2) {
+              multi(r.subImei, r.event, r.time1, r.time2, r.num1, r.num2)
+            } else {
+              multi(r.subImei, r.event, r.time2, r.time1, r.num2, r.num1)
+            }
+          })
         res
       }
-      ).filter(_.nonEmpty).reduce(_.union(_))
+      )
     finalRes2.foreach(println)
+    println(System.currentTimeMillis - startTime2)
   }
 
   case class lte(num: String, event: String, cp: String, time: Long, subImei: String)
