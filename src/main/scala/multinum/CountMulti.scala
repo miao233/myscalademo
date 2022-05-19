@@ -12,16 +12,16 @@ import org.apache.spark.sql.SparkSession
 object CountMulti {
 
   def main(args: Array[String]): Unit = {
-    val conf = new SparkConf().setMaster("local").setAppName("multiCouter")
+    val conf = new SparkConf().setMaster("local").setAppName("multiCounter")
     val spark = SparkSession.builder().config(conf).getOrCreate()
     spark.sparkContext.setLogLevel("WARN")
     import spark.implicits._
     val seq = Seq(
-      muitl("123", "456", 123456, 123457, "2", "23512353543"),
-      muitl("123", "456", 123456, 123459, "2", "23512353543"),
-      muitl("123", "457", 123456, 123459, "2", "23512353543")
+      multi("123", "456", 123456, 123457, "2", "23512353543"),
+      multi("123", "456", 123456, 123459, "2", "23512353543"),
+      multi("123", "457", 123456, 123459, "2", "23512353543")
     )
-    val data = spark.sparkContext.parallelize(seq)
+//    val data = spark.sparkContext.parallelize(seq)
     val df = spark.createDataFrame(seq)
     val ds = spark.createDataset(seq)
 
@@ -43,7 +43,7 @@ object CountMulti {
 
   }
 
-  case class muitl(num1: String,
+  case class multi(num1: String,
                    num2: String,
                    time1: Long,
                    time2: Long,

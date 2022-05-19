@@ -60,9 +60,7 @@ object MultiNum {
           .map(r => {
             if (r.num1 < r.num2) {
               multi(r.subImei, r.event, r.time1, r.time2, r.num1, r.num2)
-            } else {
-              multi(r.subImei, r.event, r.time2, r.time1, r.num2, r.num1)
-            }
+            } else multi(r.subImei, r.event, r.time2, r.time1, r.num2, r.num1)
           })
         res
       }
