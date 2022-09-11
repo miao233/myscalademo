@@ -1,4 +1,4 @@
-package tool
+package hellodemo.tool
 
 object strUnion {
   def main(args: Array[String]): Unit = {

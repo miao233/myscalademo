@@ -1,4 +1,4 @@
-package tool
+package hellodemo.tool
 
 import java.text.SimpleDateFormat
 
